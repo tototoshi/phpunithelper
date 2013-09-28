@@ -85,7 +85,7 @@ class SkeltonGenerator
 
         $namespaceCode = '';
 
-        if ($namespace !== '') {
+        if ($namespace !== 'global') {
             $namespaceCode = "namespace $namespace;\n\n";
         }
 
