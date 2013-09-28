@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-php src/PHPUnitHelper/Application.php "$@"
+php $(dirname $0)/../phpunithelper/phpunithelper/src/PHPUnitHelper/Application.php "$@"
