@@ -1,0 +1,13 @@
+{
+    "autoload":{
+        "psr-0":{ "PHPUnitHelper": "src/" }
+    },
+    "require": {
+        "phpunit/phpunit": "3.7.27",
+        "phpdocumentor/reflection": "1.0.1",
+        "cilex/cilex": "1.0.1"
+    },
+    "bin": [
+        "composer/bin/phpunithelper"
+    ]
+}
