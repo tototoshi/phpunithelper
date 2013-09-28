@@ -1,4 +1,5 @@
 {
+    "name": "phpunithelper/phpunithelper",
     "autoload":{
         "psr-0":{ "PHPUnitHelper": "src/" }
     },
