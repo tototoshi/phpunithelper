@@ -63,7 +63,7 @@ class SkeltonGenerator
             "$indentedArgumentsCode" .
             "    // \$expected =\n" .
             "$actualCode" .
-            "    // \$self->assertEquals(\$expected, \$actual);\n" .
+            "    // \$this->assertEquals(\$expected, \$actual);\n" .
             "}\n";
     }
 

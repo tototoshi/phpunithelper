@@ -34,7 +34,7 @@ class SkeltonGeneratorTest extends \PHPUnit_Framework_TestCase
             "    \$arg1 = '';\n" .
             "    \$arg2 = array();\n" .
             "    // \$expected =\n" .
-            "    // \$self->assertEquals(\$expected, \$actual);\n" .
+            "    // \$this->assertEquals(\$expected, \$actual);\n" .
             "}\n";
         $code = $this->fixture->generateMethodSkelton($method);
         $this->assertEquals($expected, $code);
@@ -58,7 +58,7 @@ class SkeltonGeneratorTest extends \PHPUnit_Framework_TestCase
             "    public function testGenerate()\n" .
             "    {\n" .
             "        // \$expected =\n" .
-            "        // \$self->assertEquals(\$expected, \$actual);\n" .
+            "        // \$this->assertEquals(\$expected, \$actual);\n" .
             "    }\n" .
             "\n" .
             "}\n";
