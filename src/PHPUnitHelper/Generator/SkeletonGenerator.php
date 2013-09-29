@@ -5,12 +5,12 @@ use PHPUnitHelper\Syntax\PHPMethod;
 use PHPUnitHelper\Syntax\PHPClass;
 use PHPUnitHelper\Util\StringUtil;
 
-class SkeltonGenerator
+class SkeletonGenerator
 {
 
     const INDENT_DEPTH = 4;
 
-    public function generateMethodSkelton(PHPMethod $method, $className = '')
+    public function generateMethodSkeleton(PHPMethod $method, $className = '')
     {
         $arguments = $method->getArguments();
 
@@ -67,14 +67,14 @@ class SkeltonGenerator
             "}\n";
     }
 
-    public function generateClassSkelton(PHPClass $class)
+    public function generateClassSkeleton(PHPClass $class)
     {
         $className = $class->getName();
         $methods = $class->getMethods();
 
         $methodCode = '';
         foreach ($methods as $method) {
-            $methodCode .= $this->generateMethodSkelton($method, $className);
+            $methodCode .= $this->generateMethodSkeleton($method, $className);
             if ($methodCode !== '') {
                 $methodCode .= "\n";
             }

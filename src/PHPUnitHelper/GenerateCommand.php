@@ -4,9 +4,10 @@ namespace PHPUnitHelper;
 use Cilex\Command\Command;
 use phpDocumentor\Reflection\FileReflector;
 use PHPUnitHelper\Exception\ClassNotContainedException;
-use PHPUnitHelper\Generator\SkeltonGenerator;
+use PHPUnitHelper\Generator\SkeletonGenerator;
 use PHPUnitHelper\Reflector\ClassReflectorConverter;
 use PHPUnitHelper\Reflector\FileReflectorUtil;
+use PHPUnitHelper\Syntax\TestClass;
 use PHPUnitHelper\Util\FileUtil;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,24 +34,25 @@ class GenerateCommand extends Command
     {
         $inFilename = $input->getArgument(self::ARG_IN_FILE);
         $outDirectoryName = $input->getArgument(self::ARG_OUT_DIRECTORY);
+
         $class = FileReflectorUtil::getPHPClass($inFilename);
 
-        $testClassFilename = $this->getTestClassName($class->getName());
+        $testClass = new TestClass($class->getName());
 
-        $outFilename = FileUtil::join($outDirectoryName, $testClassFilename);
+        $outFilename = FileUtil::join(
+            $outDirectoryName,
+            $testClass->getTestClassFileName()
+        );
+
+        $generator = new SkeletonGenerator();
+        $skeleton = $generator->generateClassSkeleton($class);
+
         if (file_exists($outFilename)) {
             $output->writeln("$outFilename already exists!");
         } else {
             FileUtil::ensureDirectoryExists($outDirectoryName);
-            $generator = new SkeltonGenerator();
-            file_put_contents($outFilename, $generator->generateClassSkelton($class));
+            file_put_contents($outFilename, $skeleton);
         }
     }
-
-    private function getTestClassName($className)
-    {
-        return $className . "Test.php";
-    }
-
 
 }

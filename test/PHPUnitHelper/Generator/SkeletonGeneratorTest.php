@@ -5,7 +5,7 @@ use PHPUnitHelper\Syntax\PHPMethod;
 use PHPUnitHelper\Syntax\PHPClass;
 use PHPUnitHelper\Syntax\PHPMethodArgument;
 
-class SkeltonGeneratorTest extends \PHPUnit_Framework_TestCase
+class SkeletonGeneratorTest extends \PHPUnit_Framework_TestCase
 {
 
     private $fixture;
@@ -16,10 +16,10 @@ class SkeltonGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->fixture = new SkeltonGenerator();
+        $this->fixture = new SkeletonGenerator();
     }
 
-    public function testGenerateMethodSkelton()
+    public function testGenerateMethodSkeleton()
     {
         $method = new PHPMethod("generate");
         $method->addArguments(new PHPMethodArgument('$arg1', ''));
@@ -36,11 +36,11 @@ class SkeltonGeneratorTest extends \PHPUnit_Framework_TestCase
             "    // \$expected =\n" .
             "    // \$this->assertEquals(\$expected, \$actual);\n" .
             "}\n";
-        $code = $this->fixture->generateMethodSkelton($method);
+        $code = $this->fixture->generateMethodSkeleton($method);
         $this->assertEquals($expected, $code);
     }
 
-    public function testGenerateClassSkelton()
+    public function testGenerateClassSkeleton()
     {
         $method = new PHPMethod("generate");
 
@@ -64,7 +64,7 @@ class SkeltonGeneratorTest extends \PHPUnit_Framework_TestCase
             "\n" .
             "}\n";
 
-        $code = $this->fixture->generateClassSkelton($class);
+        $code = $this->fixture->generateClassSkeleton($class);
         $this->assertEquals($expected, $code);
     }
 
