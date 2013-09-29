@@ -1,5 +1,6 @@
 {
     "name": "phpunithelper/phpunithelper",
+    "license": "BSD-3-Clause",
     "autoload":{
         "psr-0":{ "PHPUnitHelper": "src/" }
     },
