@@ -45,6 +45,7 @@ class SkeltonGeneratorTest extends \PHPUnit_Framework_TestCase
         $method = new PHPMethod("generate");
 
         $class = new PHPClass("Hello");
+        $class->setNamespace('global');
         $class->addMethod($method);
 
         $expected =

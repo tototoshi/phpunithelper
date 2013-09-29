@@ -23,4 +23,9 @@ class StringUtil
         return $buf;
     }
 
+    public static function randomMD5String()
+    {
+        return md5(uniqid(rand(),true));
+    }
+
 }

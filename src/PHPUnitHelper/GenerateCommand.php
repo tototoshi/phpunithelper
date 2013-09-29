@@ -6,6 +6,8 @@ use phpDocumentor\Reflection\FileReflector;
 use PHPUnitHelper\Exception\ClassNotContainedException;
 use PHPUnitHelper\Generator\SkeltonGenerator;
 use PHPUnitHelper\Reflector\ClassReflectorConverter;
+use PHPUnitHelper\Reflector\FileReflectorUtil;
+use PHPUnitHelper\Util\FileUtil;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -31,33 +33,24 @@ class GenerateCommand extends Command
     {
         $inFilename = $input->getArgument(self::ARG_IN_FILE);
         $outDirectoryName = $input->getArgument(self::ARG_OUT_DIRECTORY);
-        $class = $this->getPHPClass($inFilename);
-        $generator = new SkeltonGenerator();
+        $class = FileReflectorUtil::getPHPClass($inFilename);
 
-        $testClassFilename = $class->getName() . "Test.php";
-        $outFilename = rtrim($outDirectoryName, '/') . '/' . $testClassFilename;
+        $testClassFilename = $this->getTestClassName($class->getName());
+
+        $outFilename = FileUtil::join($outDirectoryName, $testClassFilename);
         if (file_exists($outFilename)) {
             $output->writeln("$outFilename already exists!");
         } else {
-            if (!file_exists($outDirectoryName)) {
-                $recursive = true;
-                mkdir($outDirectoryName, 0755, $recursive);
-            }
-            $outFilename = rtrim($outDirectoryName, '/') . '/' . $testClassFilename;
+            FileUtil::ensureDirectoryExists($outDirectoryName);
+            $generator = new SkeltonGenerator();
             file_put_contents($outFilename, $generator->generateClassSkelton($class));
         }
     }
 
-    private function getPHPClass($filename)
+    private function getTestClassName($className)
     {
-        $file = new FileReflector($filename);
-        $file->process();
-        $reflectedClasses = $file->getClasses();
-
-        if (count($reflectedClasses) === 0) {
-            throw new ClassNotContainedException("$filename doesn't contain any PHP class.");
-        }
-        return ClassReflectorConverter::toPHPClass($reflectedClasses[0]);
+        return $className . "Test.php";
     }
+
 
 }
