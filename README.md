@@ -1,4 +1,5 @@
 # PHPUnitHelper
+[![Build Status](https://travis-ci.org/tototoshi/phpunithelper.png)](https://travis-ci.org/tototoshi/phpunithelper)
 
 ## Install
 
