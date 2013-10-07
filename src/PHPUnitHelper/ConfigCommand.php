@@ -31,7 +31,7 @@ class ConfigCommand extends Command
         $config = new Configuration();
         $testsuites = new TestSuite('my test suite.', 'test/');
 
-        $outFilename = 'phpunit.xml.dist2';
+        $outFilename = 'phpunit.xml.dist';
 
         $xml = ConfigurationXMLGenerator::generate($config, array($testsuites));
 
