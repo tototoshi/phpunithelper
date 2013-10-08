@@ -27,6 +27,7 @@ class GenerateCommand extends Command
     {
         $this
             ->setName('generate')
+            ->setAliases(array('g'))
             ->setDescription('Generate Test Class Skeleton')
             ->addArgument(self::ARG_IN_FILE, InputArgument::REQUIRED, 'filename')
             ->addArgument(self::ARG_OUT_DIRECTORY, InputArgument::REQUIRED, 'generated filename');
