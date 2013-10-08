@@ -3,6 +3,7 @@ namespace PHPUnitHelper\Generator;
 
 use PHPUnitHelper\Syntax\PHPMethod;
 use PHPUnitHelper\Syntax\PHPClass;
+use PHPUnitHelper\Syntax\PHPTrait;
 use PHPUnitHelper\Util\StringUtil;
 
 class SkeletonGenerator
@@ -67,11 +68,26 @@ class SkeletonGenerator
             "}\n";
     }
 
-    public function generateClassSkeleton(PHPClass $class)
+    public function generateClassSkeletonFromPHPClass(PHPClass $class)
     {
         $className = $class->getName();
         $methods = $class->getMethods();
+        $namespace = $class->getNamespace();
 
+        return $this->generateClassSkelton($methods, $className, $namespace);
+    }
+
+    public function generateClassSkeletonFromPHPTrait(PHPTrait $class)
+    {
+        $className = $class->getName();
+        $methods = $class->getMethods();
+        $namespace = $class->getNamespace();
+
+        return $this->generateClassSkelton($methods, $className, $namespace);
+    }
+
+    private function generateClassSkelton($methods, $className, $namespace)
+    {
         $methodCode = '';
         foreach ($methods as $method) {
             $methodCode .= $this->generateMethodSkeleton($method, $className);
@@ -81,7 +97,6 @@ class SkeletonGenerator
         }
         $indentedMethodCode = StringUtil::indent($methodCode, self::INDENT_DEPTH);
 
-        $namespace = $class->getNamespace();
 
         $namespaceCode = '';
 

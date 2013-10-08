@@ -8,6 +8,9 @@ use PHPUnitHelper\Syntax\PHPMethodArgument;
 class SkeletonGeneratorTest extends \PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var SkeletonGenerator $fixture;
+     */
     private $fixture;
 
     public function setUpBefore()
@@ -40,7 +43,7 @@ class SkeletonGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $code);
     }
 
-    public function testGenerateClassSkeleton()
+    public function testGenerateClassSkeletonFromClass()
     {
         $method = new PHPMethod("generate");
 
@@ -64,7 +67,7 @@ class SkeletonGeneratorTest extends \PHPUnit_Framework_TestCase
             "\n" .
             "}\n";
 
-        $code = $this->fixture->generateClassSkeleton($class);
+        $code = $this->fixture->generateClassSkeletonFromPHPClass($class);
         $this->assertEquals($expected, $code);
     }
 

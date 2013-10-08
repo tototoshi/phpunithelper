@@ -4,6 +4,8 @@ namespace PHPUnitHelper;
 use Cilex\Command\Command;
 use phpDocumentor\Reflection\FileReflector;
 use PHPUnitHelper\Exception\ClassNotContainedException;
+use PHPUnitHelper\Exception\ParseFailedException;
+use PHPUnitHelper\Exception\TraitNotContainedException;
 use PHPUnitHelper\Generator\SkeletonGenerator;
 use PHPUnitHelper\Reflector\ClassReflectorConverter;
 use PHPUnitHelper\Reflector\FileReflectorUtil;
@@ -35,17 +37,32 @@ class GenerateCommand extends Command
         $inFilename = $input->getArgument(self::ARG_IN_FILE);
         $outDirectoryName = $input->getArgument(self::ARG_OUT_DIRECTORY);
 
-        $class = FileReflectorUtil::getPHPClass($inFilename);
+        try {
+            $class = FileReflectorUtil::getPHPClass($inFilename);
+        } catch (ClassNotContainedException $e) {
+            try {
+                $trait = FileReflectorUtil::getPHPTrait($inFilename);
+            } catch (TraitNotContainedException $e) {
+                throw new ParseFailedException('Class or Trait is not contained in the file.');
+            }
+        }
 
-        $testClass = new TestClass($class->getName());
+
+        if (isset($class)) {
+            $testClass = new TestClass($class->getName());
+            $generator = new SkeletonGenerator();
+            $skeleton = $generator->generateClassSkeletonFromPHPClass($class);
+        } else {
+            $testClass = new TestClass($trait->getName());
+            $generator = new SkeletonGenerator();
+            $skeleton = $generator->generateClassSkeletonFromPHPTrait($trait);
+        }
 
         $outFilename = FileUtil::join(
             $outDirectoryName,
             $testClass->getTestClassFileName()
         );
 
-        $generator = new SkeletonGenerator();
-        $skeleton = $generator->generateClassSkeleton($class);
 
         if (file_exists($outFilename)) {
             $output->writeln("$outFilename already exists!");
